@@ -88,6 +88,7 @@ class Spellchecker
   # find known (in dictionary) distance-2 edits of target word.
   def known_edits2 (word)
     # get every possible distance - 2 edit of the input word. Return those that are in the dictionary.
+
   end
 
   #return subset of the input words (argument is an array) that are known by this dictionary
@@ -106,5 +107,7 @@ class Spellchecker
   # returns distance-2 replacements sorted by descending frequency in the model
   # else returns nil
   def correct(word)
+    if known(word) [then]
+      return word
   end  
 end
