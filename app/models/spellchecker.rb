@@ -45,14 +45,41 @@ class Spellchecker
   #generate all correction candidates at an edit distance of 1 from the input word.
   def edits1(word)
     
-    deletes    = []
     #all strings obtained by deleting a letter (each letter)
-    transposes = []
+    deletes    = []
+    i = 0
+    while i < word.length
+      deletes_word = word
+      deletes << deletes_word.slice(0,i) + deletes_word.slice(i+1, word.length)
+      i+=1
+    end
     #all strings obtained by switching two consecutive letters
-    inserts = []
+    transposes = []
+    while i < word.length-1
+      transposes_word = word
+      transposes << transposes_word.tr(transposes_word[i], transposes_word[i+1])
+    end
     # all strings obtained by inserting letters (all possible letters in all possible positions)
-    replaces = []
+    
+    inserts = []
+    while i < word.length
+      inserts_word = word
+      ALPHABET.split(//).each do |character|
+        inserts_word.insert(i,character)
+        inserts << inserts_word
+      end 
+    end
+
     #all strings obtained by replacing letters (all possible letters in all possible positions)
+    replaces = []
+    while i < word.length
+      replaces_word = word
+      ALPHABET.split(//).each do |character|
+        replaces_word[i] = character
+        replaces << replaces_word
+      end
+    end
+    
 
     return (deletes + transposes + replaces + inserts).to_set.to_a #eliminate duplicates, then convert back to array
   end
