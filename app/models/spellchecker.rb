@@ -2,7 +2,6 @@ require 'set'
 
 class Spellchecker
 
-  
   ALPHABET = 'abcdefghijklmnopqrstuvwxyz'
 
   #constructor.
@@ -12,10 +11,19 @@ class Spellchecker
     #read file text_file_name
     #extract words from string (file contents) using method 'words' below.
     #put in dictionary with their frequency (calling train! method)
+    @frequency = Hash.new(0)
+    File.open(text_file_name) do |f|
+      f.each_line do |line|
+        words = line.split(' ')
+        train!(words)
+      end
+    end
+    puts lookup('ruby')
   end
 
   def dictionary
     #getter for instance attribute
+    return @frequency
   end
   
   #returns an array of words in the text.
@@ -26,10 +34,12 @@ class Spellchecker
   #train model (create dictionary)
   def train!(word_list)
     #create @dictionary, an attribute of type Hash mapping words to their count in the text {word => count}. Default count should be 0 (argument of Hash constructor).
+    word_list.each { |word| @frequency[word.downcase] += 1 }
   end
 
   #lookup frequency of a word, a simple lookup in the @dictionary Hash
   def lookup(word)
+    return @frequency[word]
   end
   
   #generate all correction candidates at an edit distance of 1 from the input word.
@@ -69,8 +79,5 @@ class Spellchecker
   # returns distance-2 replacements sorted by descending frequency in the model
   # else returns nil
   def correct(word)
-  end
-    
-  
+  end  
 end
-
